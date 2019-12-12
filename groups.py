@@ -1,40 +1,66 @@
-def cons(it, elem):
-    yield from it
-    yield elem
+from solver import Group
 
 
-def ezmults(ngens, rels):
-    mults = [[2] * ngens for _ in range(ngens)]
+def A(n):
+    """"""
+    assert 1 <= n
 
-    for (f, t), m in rels:
-        mults[f][t] = m
-        mults[t][f] = m
-
-    for i in range(ngens - 1):
-        for j in range(i + 1, ngens):
-            yield ((i, j), mults[i][j])
+    return Group.schlafli(*[3] * (n - 1))
 
 
-def schlafli(*mults):
-    ngens = len(mults) + 1
-    return ngens, ezmults(ngens, (((i, i + 1), mult) for i, mult in enumerate(mults)))
+def B(n):
+    """Hypercube Irreducible Coxeter Group"""
+    assert 2 <= n
+
+    return Group.schlafli(4, *[3] * (n - 2))
 
 
-def torus(n):
-    return schlafli(n, 2, n)
+def D(n):
+    """Demicube Irreducible Coxeter Groups"""
+    assert 4 <= n
 
-
-def cube(dim):
-    return schlafli(4, *[3] * (dim - 2))
-
-
-def icos(dim):
-    assert 2 <= dim <= 4
-
-    return schlafli(5, *[3] * (dim - 2))
+    g = Group.schlafli(*[3] * (n - 2), 2)
+    g[1, n - 1] = 3
+    return g
 
 
 def E(n):
-    ngens, mults = schlafli(*[3] * (n - 2), 2)
-    mults = cons(mults, ((2, n - 1), 3))
-    return ngens, ezmults(ngens, mults)
+    """E_6, E_7, and E_8 Irreducible Coxeter Groups"""
+    assert 6 <= n <= 8
+
+    g = Group.schlafli(*[3] * (n - 2), 2)
+    g[2, n - 1] = 3
+    return g
+
+
+def F4():
+    """24-cell Irreducible Coxeter Group"""
+
+    return Group.schlafli(3, 4, 3)
+
+
+def G2():
+    """G2 Irreducible Coxeter Group"""
+
+    return Group.schlafli(6)
+
+
+def H(n):
+    """Icosahedral Irreducible Coxeter Group"""
+    assert 2 <= n <= 4
+
+    return Group.schlafli(5, *[3] * (n - 2))
+
+
+def I2(n):
+    """Polygon Irreducible Coxeter Groups"""
+    assert 2 <= n
+
+    return Group.schlafli(n)
+
+
+def T(n):
+    """Toroidal Coxeter Group: I_2(n) x I_2(n)"""
+    assert 2 <= n
+
+    return I2(n) ** 2
