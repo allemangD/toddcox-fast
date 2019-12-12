@@ -85,9 +85,6 @@ def solve(cosets: Cosets, rel_tables: List[RelTable]):
         if idx == len(cosets.data):
             break
 
-        # print()
-        # print(cosets)
-        # print()
         coset, gen = divmod(idx, cosets.ngens)
         target = len(cosets)
 
@@ -120,14 +117,6 @@ def solve(cosets: Cosets, rel_tables: List[RelTable]):
                     elif rel.gen[target] == rel.mul - 1:
                         rel.lst[rel.fam[target]] = target
 
-            # print('=====================')
-            # for rel in rel_tables:
-            #     print(rel.gens)
-            #     print('fam', rel.fam)
-            #     print('gen', rel.gen)
-            #     print('lst', rel.lst)
-            #     print()
-
             facts.sort(reverse=True)
 
         for rel in rel_tables:
@@ -142,14 +131,6 @@ def solve(cosets: Cosets, rel_tables: List[RelTable]):
 
                 if count == 1:
                     rel.gen[target] = -1
-
-        # print('=====================')
-        # for rel in rel_tables:
-        #     print(rel.gens)
-        #     print('fam', rel.fam)
-        #     print('gen', rel.gen)
-        #     print('lst', rel.lst)
-        #     print()
 
 
 if __name__ == '__main__':
