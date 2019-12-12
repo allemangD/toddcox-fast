@@ -3,7 +3,10 @@ from solver import Group
 
 def A(n):
     """"""
-    assert 1 <= n
+    assert 0 <= n
+
+    if n == 0:
+        return Group(0)
 
     return Group.schlafli(*[3] * (n - 1))
 

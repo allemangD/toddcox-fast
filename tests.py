@@ -1,9 +1,31 @@
+import math
 from time import time
 
 from groups import *
 
+
+def perm(a, b):
+    return math.factorial(a) // math.factorial(b)
+
+
+def simple_n_gens(n: int, p: int):
+    """
+    :param n: Maximum number of generators
+    :param p: Order of root I2
+    """
+
+    return [
+        (f'{g} gens', I2(n * perm(p - 1, g - 1)) * A(g - 2))
+        for g in range(2, p)
+    ]
+
+
 if __name__ == '__main__':
-    gs = [
+    # benchmark with increasing number of generators
+    gs = simple_n_gens(2, 9)
+
+    # benchmark original groups
+    gs += [
         ('T(50)', T(50)),
         ('T(100)', T(100)),
         ('T(150)', T(150)),
@@ -28,16 +50,3 @@ if __name__ == '__main__':
         speed = cosets / diff
 
         print(f'{name}, {cosets :,}, {diff:,.3g}, {speed:,.2g}')
-
-# group, cosets, time, speed
-# T(50), 10,000, 0.0751, 1.3e+05
-# T(100), 40,000, 0.304, 1.3e+05
-# T(150), 90,000, 0.688, 1.3e+05
-# T(200), 160,000, 1.21, 1.3e+05
-# T(250), 250,000, 1.89, 1.3e+05
-# B(5), 3,840, 0.0495, 7.8e+04
-# H(4), 14,400, 0.11, 1.3e+05
-# B(6), 46,080, 0.837, 5.5e+04
-# E(6), 51,840, 0.944, 5.5e+04
-# B(7), 645,120, 17.2, 3.7e+04
-# E(7), 2,903,040, 79.4, 3.7e+04
