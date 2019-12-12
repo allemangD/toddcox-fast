@@ -152,7 +152,7 @@ if __name__ == '__main__':
     # result = solve(*init_schlafli(300, 2, 300))
 
     # group = groups.schlafli(4, 3, 3, 3, 3)
-    group = groups.E(6)
+    group = groups.icos(4)
 
     import time
 

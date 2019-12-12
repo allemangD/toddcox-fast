@@ -38,8 +38,3 @@ def E(n):
     ngens, mults = schlafli(*[3] * (n - 2), 2)
     mults = cons(mults, ((2, n - 1), 3))
     return ngens, ezmults(ngens, mults)
-
-
-if __name__ == '__main__':
-    a, b = E(8)
-    print(list(b))
