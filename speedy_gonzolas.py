@@ -1,5 +1,7 @@
 from typing import List
 
+import groups
+
 
 class Cosets:
     def __init__(self, ngens, data=()):
@@ -132,22 +134,36 @@ def solve(cosets: Cosets, rel_tables: List[RelTable]):
                 if count == 1:
                     rel.gen[target] = -1
 
+    return cosets
+
+
+def init(ngens, mults, sub_gens=()):
+    initial_row = [-1] * ngens
+    for s in sub_gens:
+        initial_row[s] = 0
+
+    cosets = Cosets(ngens, initial_row)
+    rel_tables = [RelTable(*a) for a in mults]
+    return cosets, rel_tables
+
 
 if __name__ == '__main__':
-    # cosets = Cosets(3)
-    # mults = [((0, 1), 50000), ((1, 2), 2), ((0, 2), 2)]
+    # result = solve(*init_schlafli(5, 3, 3))
+    # result = solve(*init_schlafli(300, 2, 300))
 
-    cosets = Cosets(4)
-    n = 100
-    mults = [((0, 1), 5), ((1, 2), 3), ((2, 3), 3),
-             ((0, 2), 2), ((1, 3), 2), ((0, 3), 2)]
+    # group = groups.schlafli(4, 3, 3, 3, 3)
+    group = groups.E(6)
 
-    rel_tables = [RelTable(*args) for args in mults]
+    import time
 
-    solve(cosets, rel_tables)
+    s = time.time()
+    result = solve(*init(*group))
+    e = time.time()
 
-    print(len(cosets))
-    if len(cosets) < 20:
-        print(cosets)
+    print(e - s, 's')
+
+    print(len(result))
+    if len(result) < 20:
+        print(result)
     else:
         print('--')
